@@ -38,7 +38,7 @@
                         class="list-group-item list-group-item-action {{ request()->is('admin/product-gallery') ? 'active' : '' }}">
                         Product Images
                     </a>
-                    <a href="" target="_blank"
+                    <a href="{{ route('dashboard-transaction') }}"
                         class="list-group-item list-group-item-action {{ request()->is('admin/transactions') ? 'active' : '' }}">
                         Transactions
                     </a>

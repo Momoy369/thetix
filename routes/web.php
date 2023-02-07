@@ -36,8 +36,10 @@ Route::get('/dashboard/tickets/{id}', [App\Http\Controllers\DashboardTicketContr
 
 Route::get('/dashboard/account', [App\Http\Controllers\DashboardSettingController::class, 'account'])->name('dashboard-settings-account');
 
+
+
 Route::prefix('admin')
-    // ->middleware(['auth', 'admin'])
+    ->middleware(['auth', 'admin'])
     ->group(function () {
         Route::get('/cart', 'App\Http\Controllers\CartController@index')->name('cart');
         Route::delete('/cart/{id}', 'App\Http\Controllers\CartController@delete')->name('cart-delete');
@@ -46,6 +48,13 @@ Route::prefix('admin')
         Route::resource('user', 'App\Http\Controllers\Admin\UserController');
         Route::resource('product', 'App\Http\Controllers\Admin\ProductController');
         Route::resource('product-gallery', 'App\Http\Controllers\Admin\ProductGalleryController');
+
+        Route::get('/transactions', 'App\Http\Controllers\DashboardTransactionController@index')
+            ->name('dashboard-transaction');
+        Route::get('/transactions/{id}', 'App\Http\Controllers\DashboardTransactionController@details')
+            ->name('dashboard-transaction-details');
+        Route::post('/transactions/{id}', 'App\Http\Controllers\DashboardTransactionController@update')
+            ->name('dashboard-transaction-update');
     });
 
 Auth::routes();
