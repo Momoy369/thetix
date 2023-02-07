@@ -33,29 +33,44 @@
               <thead>
                 <tr>
                   <td>Image</td>
-                  <td>Name &amp; Seller</td>
+                  <td>Event Name</td>
                   <td>Price</td>
                   <td>Menu</td>
                 </tr>
               </thead>
               <tbody>
+                @php
+                    $totalPrice = 0;
+                @endphp
+                @foreach ($carts as $cart)
                 <tr>
                   <td style="width: 25%;">
-                    <img src="/images/concert-1.jpg" class="cart-image" alt="">
+                      @if ($cart->product->galleries)
+                          <img src="{{ Storage::url($cart->product->galleries->first()->photo) }}"
+                              class="cart-image" alt="">
+                      @endif
                   </td>
                   <td style="width: 35%;">
-                    <div class="product-title">Dream Theater</div>
+                      <div class="product-title">{{ $cart->product->name }}</div>
                   </td>
                   <td style="width: 35%;">
-                    <div class="product-title">Rp. 5.000.000</div>
-                    <div class="product-subtitle">IDR</div>
+                      <div class="product-title">Rp. {{ number_format($cart->product->price) }}</div>
+                      <div class="product-subtitle">IDR</div>
                   </td>
                   <td style="width: 20%;">
-                    <a href="#" class="btn btn-remove-cart">
-                      Remove
-                    </a>
+                      <form action="{{ route('cart-delete', $cart->id) }}" method="POST">
+                          @method('DELETE')
+                          @csrf
+                          <button type="submit" class="btn btn-remove-cart">
+                              Remove
+                          </button>
+                      </form>
                   </td>
-                </tr>
+              </tr>
+              @php
+                  $totalPrice += $cart->product->price;
+              @endphp
+              @endforeach
               </tbody>
             </table>
           </div>
@@ -65,55 +80,21 @@
             <hr>
           </div>
           <div class="col-12">
-            <h2 class="mb-4">Shipping Details</h2>
+            <h2 class="mb-4">Visitor Information</h2>
           </div>
         </div>
 
         <div class="row mb-2" data-aos="fade-up" data-aos-delay="200">
           <div class="col-md-6">
             <div class="form-group">
-              <label for="addressOne">Address 1</label>
-              <input type="text" id="addressOne" name="addressOne" value="" class="form-control" placeholder="Enter address">
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="addressTwo">Address 2</label>
-              <input type="text" id="addressTwo" name="addressTwo" value="" class="form-control" placeholder="Enter address">
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="province">Province</label>
-              <select name="province" id="province" class="form-control">
-                <option value="West Java">West Java</option>
-              </select>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="city">City</label>
-              <select name="city" id="city" class="form-control">
-                <option value="Bandung">Bandung</option>
-              </select>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="postalCode">ZIP Code</label>
-              <input type="text" id="postalCode" name="postalCode" value="" class="form-control" placeholder="Enter Zip Code">
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="country">Country</label>
-              <input type="text" id="country" name="country" value="" class="form-control" placeholder="Enter Country">
+              <label for="mobile">Full Name</label>
+              <input type="text" id="name" name="name" value="" class="form-control" placeholder="Enter your full name">
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
               <label for="mobile">Mobile</label>
-              <input type="text" id="mobile" name="mobile" value="" class="form-control" placeholder="Enter phone number">
+              <input type="text" id="phone_number" name="phone_number" value="" class="form-control" placeholder="Enter phone number">
             </div>
           </div>
         </div>
@@ -128,19 +109,7 @@
         </div>
         <div class="row" data-aos="fade-up" data-aos-delay="200">
           <div class="col-4 col-md-2">
-            <div class="product-title">Rp. 1.000.000</div>
-            <div class="product-subtitle">Country Tax</div>
-          </div>
-          <div class="col-4 col-md-3">
-            <div class="product-title">Rp. 2.000.000</div>
-            <div class="product-subtitle">Product Insurance</div>
-          </div>
-          <div class="col-4 col-md-2">
-            <div class="product-title">Rp. 2.000.000</div>
-            <div class="product-subtitle">Ship to Jakarta</div>
-          </div>
-          <div class="col-4 col-md-2">
-            <div class="product-title text-success">Rp. 2.000.000</div>
+            <div class="product-title text-success">Rp. {{ number_format($totalPrice ?? 0) }}</div>
             <div class="product-subtitle">Total</div>
           </div>
           <div class="col-8 col-md-3">

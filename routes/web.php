@@ -36,6 +36,8 @@ Route::get('/dashboard/account', [App\Http\Controllers\DashboardSettingControlle
 Route::prefix('admin')
     // ->middleware(['auth', 'admin'])
     ->group(function () {
+        Route::get('/cart', 'App\Http\Controllers\CartController@index')->name('cart');
+        Route::delete('/cart/{id}', 'App\Http\Controllers\CartController@delete')->name('cart-delete');
         Route::get('/', 'App\Http\Controllers\Admin\DashboardController@index')->name('admin-dashboard');
         Route::resource('user', 'App\Http\Controllers\Admin\UserController');
         Route::resource('product', 'App\Http\Controllers\Admin\ProductController');
