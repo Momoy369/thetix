@@ -18,12 +18,15 @@ Route::get('/details/{id}', [App\Http\Controllers\DetailController::class, 'inde
 Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name('cart');
 Route::get('/success', [App\Http\Controllers\CartController::class, 'success'])->name('success');
 
+Route::post('/checkhout/callback', 'App\Http\Controllers\CheckoutCotroller@callback')->name('midtrans-callback');
+
+
 Route::get('/details/{id?}', 'App\Http\Controllers\DetailController@index')->name('detail');
 Route::post('/details/{id?}', 'App\Http\Controllers\DetailController@add')->name('detail-add');
 
 Route::get('/success', 'App\Http\Controllers\CartController@success')->name('success');
 
-Route::post('/checkhout/callback', 'App\Http\Controllers\CheckoutController@callback')->name('midtrans-callback');
+Route::post('/checkhout/callback', 'App\Http\Controllers\CheckoutCotroller@callback')->name('midtrans-callback');
 
 Route::get('/register/success', [App\Http\Controllers\Auth\RegisterController::class, 'success'])->name('register-success');
 
@@ -38,6 +41,7 @@ Route::prefix('admin')
     ->group(function () {
         Route::get('/cart', 'App\Http\Controllers\CartController@index')->name('cart');
         Route::delete('/cart/{id}', 'App\Http\Controllers\CartController@delete')->name('cart-delete');
+        Route::post('/checkhout', 'App\Http\Controllers\CheckoutCotroller@process')->name('checkout');
         Route::get('/', 'App\Http\Controllers\Admin\DashboardController@index')->name('admin-dashboard');
         Route::resource('user', 'App\Http\Controllers\Admin\UserController');
         Route::resource('product', 'App\Http\Controllers\Admin\ProductController');
