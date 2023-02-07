@@ -36,21 +36,25 @@
                     </a>
                     <a href="{{ route('product-gallery.index') }}"
                         class="list-group-item list-group-item-action {{ request()->is('admin/product-gallery') ? 'active' : '' }}">
-                        Product Images
+                        Event Images
                     </a>
                     <a href="{{ route('dashboard-transaction') }}"
-                        class="list-group-item list-group-item-action {{ request()->is('admin/transactions') ? 'active' : '' }}">
+                        class="list-group-item list-group-item-action {{ request()->is('admin/transactions*') ? 'active' : '' }}">
                         Transactions
                     </a>
                     <a href="{{ route('user.index') }}"
                         class="list-group-item list-group-item-action {{ request()->is('admin/user*') ? 'active' : '' }}">
                         Users
                     </a>
-                    <a href="/" class="list-group-item list-group-item-action">
+                    <a href="{{ route('logout') }}"  class="list-group-item list-group-item-action" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         Sign Out
                     </a>
                 </div>
             </div>
+
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                @csrf
+            </form>
 
             <!-- Page Content -->
             <div id="page-content-wrapper">
@@ -72,10 +76,13 @@
                                         data-toggle="dropdown">
                                         <img src="/images/user_pc.png" alt=""
                                             class="rounded-circle mr-2 profile-picture">
-                                        Hi, Marion
+                                        Hi, {{ Auth::user()->name }}
                                     </a>
                                     <div class="dropdown-menu">
-                                        <a href="/" class="dropdown-item">Logout</a>
+                                        <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                          @csrf
+                                        </form>
                                     </div>
                                 </li>
                             </ul>
@@ -83,13 +90,21 @@
                             <ul class="navbar-nav d-block d-lg-none">
                                 <li class="nav-item">
                                     <a href="#" class="nav-link">
-                                        Hi, Marion
+                                        Hi, {{ Auth::user()->name }}
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link d-inline-block">
-                                        Cart
-                                    </a>
+                                  <a href="{{ route('cart') }}" class="nav-link d-inline-block mt-2">
+                                    @php
+                                      $carts = \App\Models\Cart::where('users_id', Auth::user()->id)->count();
+                                    @endphp
+                                    @if ($carts > 0)
+                                      <img src="/images/icon-cart-filled.svg" alt="">
+                                      <div class="card-badge">{{ $carts }}</div>
+                                    @else
+                                      <img src="/images/cart-icon-empty.svg" alt="">
+                                    @endif
+                                  </a>
                                 </li>
                             </ul>
 
