@@ -9297,6 +9297,11 @@ footer p {
 .page-home .store-new-product {
   margin-top: 10px;
 }
+.page-home .pagination-center {
+  margin: auto;
+  max-width: 300px;
+  align-tracks: center;
+}
 
 .page-details h5 {
   font-weight: normal;

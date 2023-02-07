@@ -15,7 +15,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $products = Product::with(['galleries'])->take(8)->get();
+        $products = Product::with(['galleries'])->paginate(8);
 
         return view('pages.home', [
             'products' => $products
