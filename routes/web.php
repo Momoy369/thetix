@@ -18,6 +18,13 @@ Route::get('/details/{id}', [App\Http\Controllers\DetailController::class, 'inde
 Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name('cart');
 Route::get('/success', [App\Http\Controllers\CartController::class, 'success'])->name('success');
 
+Route::get('/details/{id?}', 'App\Http\Controllers\DetailController@index')->name('detail');
+Route::post('/details/{id?}', 'App\Http\Controllers\DetailController@add')->name('detail-add');
+
+Route::get('/success', 'App\Http\Controllers\CartController@success')->name('success');
+
+Route::post('/checkhout/callback', 'App\Http\Controllers\CheckoutController@callback')->name('midtrans-callback');
+
 Route::get('/register/success', [App\Http\Controllers\Auth\RegisterController::class, 'success'])->name('register-success');
 
 Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
