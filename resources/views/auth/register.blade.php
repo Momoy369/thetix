@@ -78,7 +78,7 @@
 @endsection
 
 @push('addon-script')
-    <script src="/vendor/vue/vue.js"></script>
+  <script src="/vendor/vue/vue.js"></script>
   <script src="https://unpkg.com/vue-toasted"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
