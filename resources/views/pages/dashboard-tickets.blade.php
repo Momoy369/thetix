@@ -17,36 +17,35 @@
             </p>
         </div>
         <div class="dashboard-content">
-            <div class="row">
-            </div>
-            <div class="row mt-3">
+              <div class="row">
                 <div class="col-12 mt-2">
-                    <h5 class="mb-3">
-                        My Tickets
-                    </h5>
-                    <a href="/dashboard-transactions-details.html" class="card card-list d-block">
+
+                    @foreach ($buyTransactions as $transaction)
+                        <a href="{{ route('dashboard-my-ticket-details', $transaction->id) }}" class="card card-list d-block">
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-1">
-                                    <img src="/images/concert-1.jpg" class="w-50" alt="">
-                                </div>
-                                <div class="col-md-4">
-                                    Dream Theater
-                                </div>
-                                <div class="col-md-3">
-                                    Used
-                                </div>
-                                <div class="col-md-3">
-                                    31 Januari 2023
-                                </div>
-                                <div class="col-md-1 d-none d-md-block">
-                                    <img src="/images/dashboard-arrow-right.svg" alt="">
-                                </div>
+                          <div class="row">
+                            <div class="col-md-1">
+                              <img src="{{ Storage::url($transaction->product->galleries->first()->photo ?? '') }}" alt="" class="w-50">
                             </div>
+                            <div class="col-md-4">
+                              {{ $transaction->product->name }}
+                            </div>
+                            <div class="col-md-3">
+                              {{ $transaction->product->store_name }}
+                            </div>
+                            <div class="col-md-3">
+                              {{ $transaction->created_at }}
+                            </div>
+                            <div class="col-md-1 d-none d-md-block">
+                              <img src="/images/dashboard-arrow-right.svg" alt="">
+                            </div>
+                          </div>
                         </div>
-                    </a>
+                      </a>
+                      @endforeach
+
                 </div>
-            </div>
+              </div>
         </div>
     </div>
 </div>
